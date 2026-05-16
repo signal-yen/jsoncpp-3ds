@@ -1,0 +1,42 @@
+[binaries]
+c = 'C:/devkitPro/devkitARM/bin/arm-none-eabi-gcc.exe'
+cpp = 'C:/devkitPro/devkitARM/bin/arm-none-eabi-g++.exe'
+ar = 'C:/devkitPro/devkitARM/bin/arm-none-eabi-ar.exe'
+strip = 'C:/devkitPro/devkitARM/bin/arm-none-eabi-strip.exe'
+pkgconfig = 'C:/devkitPro/msys2/usr/bin/pkg-config.exe'
+# pkgconfig = 'C:/devkitPro/tools/bin/pkg-config.exe'
+fftw3f_args = ['-IC:/devkitPro/portlibs/3ds/include']
+fftw3f_link_args = ['-LC:/devkitPro/portlibs/3ds/lib', '-lfftw3f']
+
+[host_machine]
+system = '3ds'
+cpu_family = 'arm'
+cpu = 'arm11k'
+endian = 'little'
+
+[properties]
+# Rutas donde Meson buscará las librerías que compilamos e instalamos
+pkg_config_libdir = 'C:/devkitPro/portlibs/3ds/lib/pkgconfig;C:/devkitPro/libctru/lib/pkgconfig'
+
+# Flags críticos para 3DS:
+# 1. Arquitectura ARMv6k (específica de la 3DS)
+# 2. Desactivamos intrínsecos de Intel (TPT intenta usarlos por defecto)
+# 3. Definimos __3DS__ para que el código fuente active los #ifdef de consola
+common_args = [
+    '-march=armv6k', 
+    '-mtune=mpcore', 
+    '-mfloat-abi=hard', 
+    '-mtp=soft', 
+    '-D__3DS__', 
+    '-DSDL_DISABLE_IMMINTRIN_H',
+    '-D_3DS'
+  ]
+
+c_args = common_args
+cpp_args = common_args + ['-fexceptions', '-frtti']
+c_link_args = ['-march=armv6k', '-mtune=mpcore', '-mfloat-abi=hard', '-specs=3dsx.specs', '-LC:/devkitPro/portlibs/3ds/lib', '-LC:/devkitPro/libctru/lib','-lctru']
+cpp_link_args = ['-mfloat-abi=hard', '-LC:/devkitPro/portlibs/3ds/lib', '-lfftw3f']
+
+[built-in options]
+# Forzamos que no intente usar librerías compartidas (.dll/.so), la 3DS solo usa estáticas (.a)
+default_library = 'static'
