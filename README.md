@@ -1,3 +1,23 @@
+# JsonCpp-3ds
+
+JsonCpp library, with building scripts for Nintendo 3DS
+
+## 3DS Building Instructions (Only tested on Windows)
+
+1- Run the `open_msys2_shell_here.bat` file to open devkitPro's MSYS2 shell (or manually open devkitPro's MSYS2 and cd to the directory)
+
+2- from the MSYS2 shell, run `./setup_3ds.sh` to setup the building environment with meson
+
+3- from the MSYS2 shell, run `./compile_3ds.sh` to build the library now that you configured the environment with the other script
+
+NOTE
+----
+The library will be on the `build-3ds` folder
+You can also use `make install` to install the library automatically to devkitPro's portlibs directory
+
+### Below is JsonCpp's original README.MD
+
+
 # JsonCpp
 
 [![Conan Center](https://img.shields.io/conan/v/jsoncpp)](https://conan.io/center/recipes/jsoncpp)
